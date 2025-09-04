@@ -1,0 +1,716 @@
+package org.autoscenariosteps;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+public class ScenarioStepGenerator {
+	public static Connection conn = null;
+	public static Properties prop;
+	private static configReader configReader;
+	static String sce_steps_arr[] = null;
+	static String sce_step = "";
+	static Logger log;
+	static String SCN_ID = null;
+	static String retainValues = null;
+
+	public static void main(String[] args) throws SQLException {
+		log = Logger.getLogger(ScenarioStepGenerator.class.getName());
+		String log4jConfigFile = System.getProperty("user.dir") + "/" + "log4j.properties";
+		PropertyConfigurator.configure(log4jConfigFile);
+
+		SCN_ID = "CYCLOS_001"; 		// UNCOMMENT for code testing without JAR
+		retainValues = "Y"; 			// UNCOMMENT for code testing without JAR
+
+		// SCN_ID = args[0]; 			// UNCOMMENT before creating JAR and COMMENT previous hard coded values
+		// retainValues = args[1]; 		// UNCOMMENT before creating JAR and COMMENT previous hard coded values
+
+		configReader = new configReader();
+		prop = configReader.init_prop();
+		System.out.println("startup - creating DB connection");
+		log.info("startup - creating DB connection");
+		init_dbConnection(prop);
+		// System.out.println(conn);
+
+		Date currentDate = new Date();
+		Timestamp timestampStart = new Timestamp(currentDate.getTime());
+		System.out.println("Timestamp: " + timestampStart + "\n");
+		log.info("Timestamp: " + timestampStart + "\n");
+
+		Statement exe_bat_rs = null;
+		Statement sce_steps = null;
+		Statement stmtExecutionDay = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+		ResultSet rs_exeDay = null;
+		ResultSet sce_func_bat_rs = null;
+		ResultSet func_subfunc_map_rs = null;
+		ResultSet func_steps_rs = null;
+		ResultSet scr_data_rs = null;
+		ResultSet or_data = null;
+		ResultSet fun_master = null;
+		ResultSet resultSet = null;
+
+		String sequence = "";
+		String subfunc_query_str = "";
+		String fn_steps = "";
+		String sce_id = "";
+		String func_name = "";
+		String subfunc_name = "";
+		String scr_name = "";
+		String fld_name = "";
+		String func_id = "";
+		String fn_name = "";
+		String subfunc_id = "";
+		String subfn_name = "";
+		String step_id = "";
+		String step_desc = "";
+		String keyword = "";
+		String type = "";
+		String locator = "";
+		String skip_step = "";
+		String skip_ss = "";
+		String skip_ha = "";
+		String updateqry = "";
+		String executionDay ="";
+		String or_id;
+		double iterator = 0;
+		int fsubfCnt = 0;
+		int fsteps = 0;
+		String func_seq = "";
+		String subfunc_seq = "";
+		String itr_seq = "";
+		String errMessage = "";
+		int errorMessageNumber = 1;
+		String insertSQL;
+		String updateSQL;
+
+		PreparedStatement fnStmt = null;
+		PreparedStatement orStmt = null;
+		PreparedStatement insertStmt = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement sceStmt = null;
+		PreparedStatement subfuncStmt = null;
+
+		PreparedStatement mismatchItrStmt = null;
+		ResultSet mismatchItr_rs = null;
+
+		PreparedStatement delSubFuncStmt = null;
+		ResultSet delSubFunc_rs = null;
+
+		Statement stmt = null;
+
+		try {
+
+			exe_bat_rs = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			sce_steps = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			stmtExecutionDay = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			System.setProperty("log4j.configurationFile", "log4j.properties");
+			System.setProperty("log4j.appender.FILE.File", "log.out");
+
+			int rCnt = 0;
+			insertSQL = "INSERT INTO SCN_STEPS_AUTOMATION"
+					+ "(SCN_ID, FUNC_ID, FUNC_NAME, SUBFUNC_ID, SUBFUNC_NAME, STEP_ID, STEP_DESCRIPTION, OR_ID, SCREEN_NAME, FIELD_NAME, KEYWORD, TYPE, LOCATOR, SKIP_STEP, SKIP_SS, HARD_ASSERT, DATA_01, DATA_02, ITERATION, FUNC_SEQUENCE, SUBFUNC_SEQUENCE, ITERATION_SEQUENCE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			if (retainValues.equals("Y")) {
+				updateSQL = "UPDATE SCN_STEPS_AUTOMATION SET FUNC_ID = ?, FUNC_NAME = ?, SUBFUNC_ID = ?, SUBFUNC_NAME = ?, STEP_ID = ?, STEP_DESCRIPTION = ?, OR_ID = ?, SCREEN_NAME = ?, FIELD_NAME = ?, KEYWORD = ?, TYPE = ?, LOCATOR = ? "
+						+ "WHERE SCN_ID = ? AND SUBFUNC_NAME = ? AND STEP_ID = ? AND FUNC_SEQUENCE = ? AND SUBFUNC_SEQUENCE = ? AND ITERATION = ? AND ITERATION_SEQUENCE = ?";
+			} else {
+				updateSQL = "UPDATE SCN_STEPS_AUTOMATION SET FUNC_ID = ?, FUNC_NAME = ?, SUBFUNC_ID = ?, SUBFUNC_NAME = ?, STEP_ID = ?, STEP_DESCRIPTION = ?, OR_ID = ?, SCREEN_NAME = ?, FIELD_NAME = ?, KEYWORD = ?, TYPE = ?, LOCATOR = ?, SKIP_STEP = ?, SKIP_SS = ?, HARD_ASSERT = ? "
+						+ "WHERE SCN_ID = ? AND SUBFUNC_NAME = ? AND STEP_ID = ? AND FUNC_SEQUENCE = ? AND SUBFUNC_SEQUENCE = ? AND ITERATION = ? AND ITERATION_SEQUENCE = ?";
+			}
+
+			insertStmt = conn.prepareStatement(insertSQL);
+			updateStmt = conn.prepareStatement(updateSQL);
+
+			// conn.setAutoCommit(false);
+
+			// String sce_exe_lst = "select SCN_FUNC_BATCHING.*, count(*) over () total_rows
+			// from SCN_FUNC_BATCHING where SCN_ID = ? ORDER BY SCN_ID,SEQUENCE";
+			String sce_exe_lst = "select SCN_FUNC_BATCHING.*, (select count(*) from SCN_FUNC_BATCHING where SCN_ID = ?) as total_rows from SCN_FUNC_BATCHING where SCN_ID = ? ORDER BY SCN_ID, SEQUENCE";
+
+			sceStmt = conn.prepareStatement(sce_exe_lst);
+			sceStmt.setString(1, SCN_ID);
+			sceStmt.setString(2, SCN_ID);
+			rs = sceStmt.executeQuery();
+			while (rs.next()) {
+				rCnt = rs.getInt("total_rows");
+			}
+			System.out.println("TOTAL " + rCnt + " NO.OF STAGES FOR SCN ID : " + SCN_ID + "\n");
+			log.info("TOTAL " + rCnt + " NO.OF STAGES FOR SCN ID : " + SCN_ID + "\n");
+			rs = sceStmt.executeQuery();
+			rs.next();
+
+			updateqry = "SELECT * from SCN_STEPS_AUTOMATION WHERE SCN_ID = '" + SCN_ID
+					+ "' ORDER BY SCN_ID, FUNC_SEQUENCE, SUBFUNC_SEQUENCE, ITERATION";
+			rs1 = sce_steps.executeQuery(updateqry);
+			// HashMap<String, Integer> subfuncIterationMap = new HashMap<>();
+
+			for (int i = 0; i < rCnt; i++) {
+				sce_step = "";
+				sequence = rs.getString("SEQUENCE");
+				System.out.println("STAGE " + sequence + ": " + rs.getString("FUNC_NAME"));
+				log.info("STAGE " + rs.getString("SEQUENCE") + ": " + rs.getString("FUNC_NAME"));
+
+				sce_id = rs.getString("SCN_ID");
+				func_id = rs.getString("FUNC_ID");
+				func_name = rs.getString("FUNC_NAME");
+				fn_name = func_name;
+				
+//				String executionDayQuery = "SELECT EXECUTION_DAY FROM SCN_FUNC_BATCHING WHERE FUNC_NAME = '" + func_name + "' AND SCN_ID ='" + sce_id + "'";
+//				rs_exeDay = stmtExecutionDay.executeQuery(executionDayQuery);
+//				
+//				executionDay = rs_exeDay.getString("EXECUTION_DAY");
+
+				// subfunc_query_str = "select FUNC_SUBFUNC_MAP.*, count(*) over () total_rows
+				// from FUNC_SUBFUNC_MAP where RUNMODE = 'Y' and SCN_ID = ? and FUNC_NAME = ?
+				// ORDER BY SCN_ID, FUNC_SEQUENCE, SUBFUNC_SEQUENCE";
+				subfunc_query_str = "select FUNC_SUBFUNC_MAP.*, (select count(*) from FUNC_SUBFUNC_MAP where RUNMODE = 'Y' and SCN_ID = ? and FUNC_NAME = ? and FUNC_SEQUENCE = ?) as total_rows from FUNC_SUBFUNC_MAP where RUNMODE = 'Y' and SCN_ID = ? and FUNC_NAME = ? and FUNC_SEQUENCE = ? ORDER BY SCN_ID, FUNC_SEQUENCE, SUBFUNC_SEQUENCE";
+
+				subfuncStmt = conn.prepareStatement(subfunc_query_str);
+				subfuncStmt.setString(1, sce_id);
+				subfuncStmt.setString(2, func_name);
+				subfuncStmt.setString(3, sequence);
+				subfuncStmt.setString(4, sce_id);
+				subfuncStmt.setString(5, func_name);
+				subfuncStmt.setString(6, sequence);
+				func_subfunc_map_rs = subfuncStmt.executeQuery();
+
+				while (func_subfunc_map_rs.next()) {
+					fsubfCnt = func_subfunc_map_rs.getInt("total_rows");
+				}
+
+				func_subfunc_map_rs = subfuncStmt.executeQuery();
+
+				if (fsubfCnt > 0) {
+					for (int j = 0; j < fsubfCnt; j++) {
+						func_subfunc_map_rs.next();
+						subfunc_name = func_subfunc_map_rs.getString("SUBFUNC_NAME");
+						subfunc_id = func_subfunc_map_rs.getString("SUBFUNC_ID");
+						subfn_name = subfunc_name;
+						func_seq = func_subfunc_map_rs.getString("FUNC_SEQUENCE");
+						subfunc_seq = func_subfunc_map_rs.getString("SUBFUNC_SEQUENCE");
+						iterator = Double.parseDouble(func_subfunc_map_rs.getString("ITERATION"));
+						itr_seq = func_subfunc_map_rs.getString("ITERATION_SEQUENCE");
+
+//                        fn_steps = "SELECT FS.SUBFUNC_ID, FS.SUBFUNC_NAME, FS.STEP_ID, FS.STEP_DESCRIPTION, " +
+//                        	    "ORP.OR_ID, FS.SCREEN_NAME, FS.FIELD_NAME, FS.KEYWORD, ORP.TYPE, ORP.LOCATOR, " +
+//                        	    "FS.SKIP_STEP, FS.SKIP_SS, FS.HARD_ASSERT, " +
+//                        	    "count(*) over () total_rows " +
+//                        	    "FROM FUNC_STEPS FS " +
+//                        	    "LEFT JOIN OBJECT_REPO ORP ON FS.OR_ID = ORP.OR_ID " +
+//                        	    "WHERE FS.SUBFUNC_NAME = ?";
+
+						fn_steps = "SELECT FS.SUBFUNC_ID, FS.SUBFUNC_NAME, FS.STEP_ID, FS.STEP_DESCRIPTION, "
+								+ "ORP.OR_ID, FS.SCREEN_NAME, FS.FIELD_NAME, FS.KEYWORD, ORP.TYPE, ORP.LOCATOR, "
+								+ "FS.SKIP_STEP, FS.SKIP_SS, FS.HARD_ASSERT, "
+								+ "(select count(*) from FUNC_STEPS FS2 where FS2.SUBFUNC_NAME = FS.SUBFUNC_NAME) as total_rows "
+								+ "FROM FUNC_STEPS FS " + "LEFT JOIN OBJECT_REPO ORP ON FS.OR_ID = ORP.OR_ID "
+								+ "WHERE FS.SUBFUNC_NAME = ?";
+
+						fnStmt = conn.prepareStatement(fn_steps);
+						fnStmt.setString(1, subfn_name);
+
+						// Add this code to fetch and store FUNC_STEPS data into an ArrayList before the
+						// nested loop
+						ArrayList<StepData> stepDataList = new ArrayList<>();
+
+						func_steps_rs = fnStmt.executeQuery();
+
+						if (func_steps_rs.next() == false) {
+							errMessage = errMessage + "\r\n" + errorMessageNumber + ". STAGE " + sequence + ": "
+									+ func_name + " - No steps available for sub function: " + subfn_name;
+							errorMessageNumber++;
+						} else {
+							do {
+								fsteps = func_steps_rs.getInt("total_rows");
+								StepData stepData = new StepData();
+								stepData.subfunc_name = func_steps_rs.getString("SUBFUNC_NAME");
+								stepData.stepId = func_steps_rs.getString("STEP_ID");
+								stepData.stepDesc = func_steps_rs.getString("STEP_DESCRIPTION");
+								stepData.orId = func_steps_rs.getString("OR_ID");
+								stepData.scrName = func_steps_rs.getString("SCREEN_NAME");
+								stepData.fldName = func_steps_rs.getString("FIELD_NAME");
+								stepData.skipStep = func_steps_rs.getString("SKIP_STEP");
+								stepData.skipSS = func_steps_rs.getString("SKIP_SS");
+								stepData.skipHA = func_steps_rs.getString("HARD_ASSERT");
+								stepData.keyword = func_steps_rs.getString("KEYWORD");
+								stepData.type = func_steps_rs.getString("TYPE");
+								stepData.locator = func_steps_rs.getString("LOCATOR");
+								stepDataList.add(stepData);
+							} while (func_steps_rs.next());
+						}
+
+						for (int itr = 1; itr <= iterator; itr++) {
+							boolean updateFlag = false;
+
+							for (StepData stepData : stepDataList) {
+								step_id = stepData.stepId;
+								step_desc = stepData.stepDesc;
+								or_id = stepData.orId;
+								scr_name = stepData.scrName;
+								fld_name = stepData.fldName;
+								skip_step = stepData.skipStep;
+								skip_ss = stepData.skipSS;
+								skip_ha = stepData.skipHA;
+								keyword = stepData.keyword;
+								type = stepData.type;
+								locator = stepData.locator;
+								subfn_name = stepData.subfunc_name;
+
+								if (type == null || locator == null || or_id == null) {
+
+									if (!type.equals("url")) {
+										errMessage = errMessage + "\r\n" + errorMessageNumber
+												+ ". OBJECT REPO missing --- | SCREEN_NAME: " + scr_name
+												+ " | FIELDNAME: " + fld_name;
+										errorMessageNumber++;
+										type = "EMPTY";
+										locator = "EMPTY";
+										or_id = "0";
+									}
+								}
+
+								rs1.beforeFirst(); // Move the ResultSet cursor to before the first row
+								while (rs1.next()) {
+									String subfunc_name1 = rs1.getString("SUBFUNC_NAME");
+									String step_id1 = rs1.getString("STEP_ID");
+									String step_desc1 = rs1.getString("STEP_DESCRIPTION");
+									String or_id1 = rs1.getString("OR_ID");
+									String scr_name1 = rs1.getString("SCREEN_NAME");
+									String fld_name1 = rs1.getString("FIELD_NAME");
+									String itr1 = rs1.getString("ITERATION");
+									String itr_seq1 = rs1.getString("ITERATION_SEQUENCE");
+									String func_seq1 = rs1.getString("FUNC_SEQUENCE");
+									String subfunc_seq1 = rs1.getString("SUBFUNC_SEQUENCE");
+
+									// Check if the current record matches the desired values
+									if (subfunc_name1.equals(subfn_name) && step_id1.equals(step_id)
+											&& step_desc1.equals(step_desc) && scr_name1.equals(scr_name)
+											&& fld_name1.equals(fld_name) && Double.parseDouble(itr1) == itr
+											&& func_seq1.equals(func_seq) && subfunc_seq1.equals(subfunc_seq)
+											&& (itr_seq1 == null || itr_seq1.equals(itr_seq))) {
+										updateFlag = true;
+										break; // Found a match, no need to continue iterating
+									}
+
+								}
+
+								 //System.out.println("Update Flag: " + updateFlag);
+
+								if (!updateFlag) {
+									locator = locator.replace("'", "\"");
+									// Set parameters for the insert statement
+									insertStmt.setString(1, sce_id);
+									insertStmt.setString(2, func_id);
+									insertStmt.setString(3, fn_name);
+									insertStmt.setString(4, subfunc_id);
+									insertStmt.setString(5, subfn_name);
+									insertStmt.setString(6, step_id);
+									insertStmt.setString(7, step_desc);
+									insertStmt.setInt(8, Integer.parseInt(or_id));
+									insertStmt.setString(9, scr_name);
+									insertStmt.setString(10, fld_name);
+									insertStmt.setString(11, keyword);
+									insertStmt.setString(12, type);
+									insertStmt.setString(13, locator);
+									insertStmt.setString(14, skip_step);
+									insertStmt.setString(15, skip_ss);
+									insertStmt.setString(16, skip_ha);
+									insertStmt.setString(17, "EMPTY");
+									insertStmt.setString(18, "EMPTY");
+									insertStmt.setInt(19, itr);
+									insertStmt.setDouble(20, Double.parseDouble(func_seq));
+									insertStmt.setDouble(21, Double.parseDouble(subfunc_seq));
+									insertStmt.setString(22, itr_seq);
+
+//									 System.out.println("Parameters: func_id=" + func_id + ", fn_name=" + fn_name
+//									 + ", subfunc_id=" + subfunc_id + ", subfn_name=" + subfn_name + ", step_id="
+//									 + step_id + ", step_desc=" + step_desc + ", or_id=" + or_id + ", scr_name=" +
+//									 scr_name + ", fld_name=" + fld_name + ", keyword=" + keyword + ", type=" +
+//									 type + ", locator=" + locator + ", skip_step=" + skip_step + ", skip_ss=" +
+//									 skip_ss + ", skip_ha=" + skip_ha + ", sce_id=" + sce_id + ", subfn_name=" +
+//									 subfn_name + ", step_id=" + step_id + ", func_seq=" + func_seq + "," +
+//									 "subfunc_seq=" + subfunc_seq + ", itr=" + itr);
+
+									insertStmt.addBatch();
+									insertStmt.executeBatch();
+
+								} else {
+									locator = locator.replace("'", "\"");
+									// Set parameters for the update statement
+									updateStmt.setString(1, func_id);
+									updateStmt.setString(2, fn_name);
+									updateStmt.setString(3, subfunc_id);
+									updateStmt.setString(4, subfn_name);
+									updateStmt.setString(5, step_id);
+									updateStmt.setString(6, step_desc);
+									updateStmt.setInt(7, Integer.parseInt(or_id));
+									updateStmt.setString(8, scr_name);
+									updateStmt.setString(9, fld_name);
+									updateStmt.setString(10, keyword);
+									updateStmt.setString(11, type);
+									updateStmt.setString(12, locator);
+									if (retainValues.equals("Y")) {
+										updateStmt.setString(13, sce_id);
+										updateStmt.setString(14, subfn_name);
+										updateStmt.setString(15, step_id);
+										updateStmt.setDouble(16, Double.parseDouble(func_seq));
+										updateStmt.setDouble(17, Double.parseDouble(subfunc_seq));
+										updateStmt.setInt(18, itr);
+										updateStmt.setString(19, (itr_seq));
+									} else {
+										updateStmt.setString(13, skip_step);
+										updateStmt.setString(14, skip_ss);
+										updateStmt.setString(15, skip_ha);
+										updateStmt.setString(16, sce_id);
+										updateStmt.setString(17, subfn_name);
+										updateStmt.setString(18, step_id);
+										updateStmt.setDouble(19, Double.parseDouble(func_seq));
+										updateStmt.setDouble(20, Double.parseDouble(subfunc_seq));
+										updateStmt.setInt(21, itr);
+										updateStmt.setString(22, (itr_seq));
+									}
+//									 System.out.println("Parameters: func_id=" + func_id + ", fn_name=" + fn_name
+//									 + ", subfunc_id=" + subfunc_id + ", subfn_name=" + subfn_name + ", step_id="
+//									 + step_id + ", step_desc=" + step_desc + ", or_id=" + or_id + ", scr_name=" +
+//									 scr_name + ", fld_name=" + fld_name + ", keyword=" + keyword + ", type=" +
+//									 type + ", locator=" + locator + ", skip_step=" + skip_step + ", skip_ss=" +
+//									 skip_ss + ", skip_ha=" + skip_ha + ", sce_id=" + sce_id + ", subfn_name=" +
+//									 subfn_name + ", step_id=" + step_id + ", func_seq=" + func_seq + "," +
+//									 "subfunc_seq=" + subfunc_seq + ", itr=" + itr);
+
+									updateStmt.addBatch();
+									updateStmt.executeBatch();
+								}
+
+								 System.out.println("Update Flag: " + updateFlag + "|| func_seq=" + func_seq + "|| " +
+										 "subfunc_seq=" + subfunc_seq + "|| itr=" + itr +" || " + fn_name + "|| " + fsteps  +" || " + step_id +" || " +
+								 step_desc +" || " + scr_name );
+							}
+
+						}
+
+					}
+
+				} else {
+					// log the missing entry in the function sub function table to the log file
+					errMessage = errMessage + "\r\n" + errorMessageNumber
+							+ ". No Sub function definition for the scenario " + sce_id + ", Sub Function " + func_name; // ]]]]]]]]]]]]]]
+					errorMessageNumber++;
+				}
+
+				if (i + 1 < rCnt) {
+					rs.next();
+				}
+			}
+
+			// ================================================================================================================================================
+			// Below code is to delete the records from SCN_STEPS when ITERATION is reduced
+			// in FUNC_SUBFUNC_MAP table
+			// ================================================================================================================================================
+
+			// SELECT QUERY TO PRINT IN LOG
+			String qryMismatchItr = "SELECT SSA.* FROM SCN_STEPS_AUTOMATION SSA WHERE SSA.ITERATION > "
+					+ "(SELECT FSM.ITERATION FROM FUNC_SUBFUNC_MAP FSM WHERE SSA.SCN_ID = FSM.SCN_ID AND"
+					+ " SSA.SUBFUNC_NAME = FSM.SUBFUNC_NAME AND SSA.FUNC_SEQUENCE = FSM.FUNC_SEQUENCE AND"
+					+ " SSA.SUBFUNC_SEQUENCE = FSM.SUBFUNC_SEQUENCE AND SSA.ITERATION_SEQUENCE = FSM.ITERATION_SEQUENCE) AND SSA.SCN_ID = ?";
+
+			int delItr;
+			int columnWidth = 10; // Adjust the width as needed
+			StringBuilder mismatchItrMsg = new StringBuilder();
+			StringBuilder delSubFuncMsg = new StringBuilder();
+
+			mismatchItrStmt = conn.prepareStatement(qryMismatchItr);
+			mismatchItrStmt.setString(1, SCN_ID);
+
+			mismatchItr_rs = mismatchItrStmt.executeQuery();
+			delItr = 1;
+
+			while (mismatchItr_rs.next()) {
+				fn_name = mismatchItr_rs.getString("FUNC_NAME");
+				subfn_name = mismatchItr_rs.getString("SUBFUNC_NAME");
+				step_id = mismatchItr_rs.getString("STEP_ID");
+				func_seq = mismatchItr_rs.getString("FUNC_SEQUENCE");
+				subfunc_seq = mismatchItr_rs.getString("SUBFUNC_SEQUENCE");
+				String itr = mismatchItr_rs.getString("ITERATION");
+				String itr_sequence = mismatchItr_rs.getString("ITERATION_SEQUENCE");
+
+				String formattedRow = String.format(
+						"%2d : %-" + columnWidth + "s | %-" + columnWidth + "s | %-" + columnWidth + "s | %-"
+								+ columnWidth + "s | %-" + columnWidth + "s | %-" + columnWidth + "s | %-" + columnWidth
+								+ "s",
+						delItr, "FUNC_NAME = " + fn_name, "SUBFUNC_NAME = " + subfn_name, "STEP_ID = " + step_id,
+						"FUNC_SEQUENCE = " + func_seq, "SUBFUNC_SEQUENCE = " + subfunc_seq, "ITERATION = " + itr,
+						"ITERATION_SEQUENCE = " + itr_sequence);
+
+				mismatchItrMsg.append(formattedRow).append("\n");
+				delItr++;
+			}
+
+			System.out.println(mismatchItrMsg.toString());
+
+			// DELETE QUERY
+			String qryDelmismatchItr = "DELETE FROM SCN_STEPS_AUTOMATION SSA WHERE SSA.ITERATION > ( "
+					+ "    SELECT FSM.ITERATION " + "    FROM FUNC_SUBFUNC_MAP FSM "
+					+ "    WHERE SSA.SCN_ID = FSM.SCN_ID " + "    AND SSA.SUBFUNC_NAME = FSM.SUBFUNC_NAME "
+					+ "    AND SSA.FUNC_SEQUENCE = FSM.FUNC_SEQUENCE "
+					+ "    AND SSA.SUBFUNC_SEQUENCE = FSM.SUBFUNC_SEQUENCE "
+					+ "    AND SSA.ITERATION_SEQUENCE = FSM.ITERATION_SEQUENCE " + ")" + " AND SSA.SCN_ID = ?";
+
+			PreparedStatement mismatchItrStmt1 = null; // Declare the PreparedStatement outside the try block
+
+			try {
+				mismatchItrStmt1 = conn.prepareStatement(qryDelmismatchItr);
+				mismatchItrStmt1.setString(1, SCN_ID);
+				int rowsAffected = mismatchItrStmt1.executeUpdate();
+
+				if (rowsAffected > 0) {
+					String str = "Above Sub Function(s) records deleted from SCN_STEPS as ITERATION is reduced in FUNC_SUBFUNC_MAP: "
+							+ rowsAffected + " rows deleted.";
+					mismatchItrMsg.append("\n\n").append(str).append("\n");
+				} else {
+					String str = "ITERATION - Deleted Sub Function : No rows deleted.";
+					mismatchItrMsg.append("\n").append(str).append("\n");
+				}
+			} catch (Exception e) {
+				log.error("DelmismatchItr - Error: " + e.getMessage(), e);
+				e.printStackTrace();
+				try {
+					conn.rollback();
+				} catch (Exception rollbackException) {
+					log.error("DelmismatchItr - Error: " + rollbackException.getMessage(), rollbackException);
+					rollbackException.printStackTrace();
+				}
+			} finally {
+				closeStatement(mismatchItrStmt1);
+			}
+
+			// ================================================================================================================================================
+			// Below code is to check whether SUBFUNC_NAME is deleted from FUNC_SUBFUNC_MAP
+			// table but present in SCN_STEPS table. If found then delete the records
+			// ================================================================================================================================================
+
+			// SELECT QUERY TO PRINT IN LOG
+			String selectqryDeletedSubFunc = "SELECT SSA.* " + "FROM SCN_STEPS_AUTOMATION SSA "
+					+ "LEFT JOIN FUNC_SUBFUNC_MAP FSM " + "ON SSA.SUBFUNC_NAME = FSM.SUBFUNC_NAME "
+					+ "AND SSA.SCN_ID = FSM.SCN_ID " + "WHERE FSM.SUBFUNC_NAME IS NULL " + "AND SSA.SCN_ID = ?";
+
+			delItr = 1;
+			delSubFuncStmt = conn.prepareStatement(selectqryDeletedSubFunc);
+			delSubFuncStmt.setString(1, SCN_ID);
+
+			delSubFunc_rs = delSubFuncStmt.executeQuery();
+			while (delSubFunc_rs.next()) {
+				fn_name = delSubFunc_rs.getString("FUNC_NAME");
+				subfn_name = delSubFunc_rs.getString("SUBFUNC_NAME");
+				step_id = delSubFunc_rs.getString("STEP_ID");
+				func_seq = delSubFunc_rs.getString("FUNC_SEQUENCE");
+				subfunc_seq = delSubFunc_rs.getString("SUBFUNC_SEQUENCE");
+				String itr = delSubFunc_rs.getString("ITERATION");
+
+				String formattedRow = String.format(
+						"%2d : %-" + columnWidth + "s | %-" + columnWidth + "s | %-" + columnWidth + "s | %-"
+								+ columnWidth + "s | %-" + columnWidth + "s | %-" + columnWidth + "s",
+						delItr, "FUNC_NAME = " + fn_name, "SUBFUNC_NAME = " + subfn_name, "STEP_ID = " + step_id,
+						"FUNC_SEQUENCE = " + func_seq, "SUBFUNC_SEQUENCE = " + subfunc_seq, "ITERATION = " + itr);
+
+				delSubFuncMsg.append(formattedRow).append("\n");
+				delItr++;
+			}
+
+			// DELETE QUERY
+			String qryDeletedSubFunc = "DELETE FROM SCN_STEPS_AUTOMATION SSA " + "WHERE SSA.SCN_ID = ? "
+					+ "AND SSA.SUBFUNC_NAME NOT IN (" + "    SELECT DISTINCT FSM.SUBFUNC_NAME "
+					+ "    FROM FUNC_SUBFUNC_MAP FSM " + "    WHERE SSA.SCN_ID = FSM.SCN_ID" + ")";
+
+			PreparedStatement delSubFuncStmt1 = null; // Declare the PreparedStatement outside the try block
+
+			try {
+				delSubFuncStmt1 = conn.prepareStatement(qryDeletedSubFunc);
+				delSubFuncStmt1.setString(1, SCN_ID);
+				int rowsAffected = delSubFuncStmt1.executeUpdate();
+				if (rowsAffected > 0) {
+					String str = "Above Sub Function(s) records deleted from SCN_STEPS as same is not available in FUNC_SUBFUNC_MAP: "
+							+ rowsAffected + " rows deleted.";
+					delSubFuncMsg.append("\n\n").append(str).append("\n");
+				} else {
+					String str = "Deleted Sub Function: No rows deleted.";
+					delSubFuncMsg.append("\n").append(str).append("\n");
+				}
+			} catch (Exception e) {
+				log.error("delSubFuncStmt - Error: " + e.getMessage(), e);
+				e.printStackTrace();
+				try {
+					conn.rollback();
+				} catch (Exception rollbackException) {
+					log.error("delSubFuncStmt - Error: " + rollbackException.getMessage(), rollbackException);
+					rollbackException.printStackTrace();
+				}
+			} finally {
+				closeStatement(delSubFuncStmt1);
+			}
+
+			// ================================================================================================================================================
+
+			Date currentDateEnd = new Date();
+			Timestamp timestampEnd = new Timestamp(currentDateEnd.getTime());
+			// Check if errMessage is empty
+			boolean hasError = !errMessage.isEmpty();
+
+			// Log the completion status
+			System.out.println("Timestamp: " + timestampEnd + "\n");
+			log.info("Timestamp: " + timestampEnd + "\n");
+
+			// Print the completion message based on the presence of errors
+			String completionMessage = hasError ? "WITH ERROR.. PLEASE CHECK LOG" : "SUCCESSFULLY";
+			System.out.println("SCENARIO STEP GENERATION COMPLETED " + completionMessage);
+			log.info("SCENARIO STEP GENERATION COMPLETED " + completionMessage);
+
+			// Print error messages if there are errors
+			if (hasError) {
+				System.out.println("\n===============================================");
+				System.out.println("                ERROR MESSAGES                   ");
+				System.out.println("===============================================");
+				System.out.println(errMessage);
+
+				log.info("\n===============================================");
+				log.info("                ERROR MESSAGES                   ");
+				log.info("===============================================");
+				log.error(errMessage);
+			}
+
+			if (!mismatchItrMsg.toString().contains("No rows deleted")) {
+				System.out.println(
+						"\n=====================================================================================");
+				System.out.println(
+						" Delete the records from SCN_STEPS when ITERATION is reduced in FUNC_SUBFUNC_MAP table ");
+				System.out.println(
+						"=====================================================================================");
+				System.out.println(mismatchItrMsg.toString());
+
+				log.info("\n=====================================================================================");
+				log.info(" Delete the records from SCN_STEPS when ITERATION is reduced in FUNC_SUBFUNC_MAP table ");
+				log.info("=====================================================================================");
+				log.info(mismatchItrMsg.toString());
+			}
+
+			if (!delSubFuncMsg.toString().contains("No rows deleted")) {
+				System.out.println(
+						"\n===================================================================================");
+				System.out.println(
+						" SUBFUNC_NAME is deleted from FUNC_SUBFUNC_MAP table but present in SCN_STEPS table ");
+				System.out
+						.println("===================================================================================");
+				System.out.println(delSubFuncMsg.toString());
+
+				log.info("\n===================================================================================");
+				log.info(" SUBFUNC_NAME is deleted from FUNC_SUBFUNC_MAP table but present in SCN_STEPS table ");
+				log.info("===================================================================================");
+				log.info(delSubFuncMsg.toString());
+			}
+
+			conn.close();
+
+		} catch (Exception e) {
+			log.error("Main - Error: " + e.getMessage(), e);
+			e.printStackTrace();
+		} finally {
+
+			if (conn != null) {
+				conn.close();
+			}
+			closeStatement(fnStmt);
+			closeStatement(orStmt);
+			closeStatement(insertStmt);
+			closeStatement(updateStmt);
+			closeStatement(sceStmt);
+			closeStatement(subfuncStmt);
+			closeStatement(mismatchItrStmt);
+			closeStatement(stmt);
+
+			closeResultSet(rs);
+			closeResultSet(rs1);
+			closeResultSet(sce_func_bat_rs);
+			closeResultSet(func_subfunc_map_rs);
+			closeResultSet(func_steps_rs);
+			closeResultSet(scr_data_rs);
+			closeResultSet(or_data);
+			closeResultSet(fun_master);
+			closeResultSet(resultSet);
+			closeResultSet(mismatchItr_rs);
+		}
+	}
+
+	// Utility method to close a ResultSet
+	private static void closeResultSet(ResultSet rs) {
+		try {
+			if (rs != null) {
+				rs.close();
+			}
+		} catch (Exception e) {
+			log.error("closeResultSet - Error: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+
+	// Utility method to close a Statement
+	private static void closeStatement(Statement stmt) {
+		try {
+			if (stmt != null) {
+				stmt.close();
+			}
+		} catch (Exception e) {
+			log.error("closeStatement - Error: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
+
+	public static Connection init_dbConnection(Properties prop) {
+		try {
+
+			String msAccDB = prop.getProperty("dbpath");
+			String dbURL = "jdbc:ucanaccess://" + msAccDB;
+			conn = DriverManager.getConnection(dbURL);
+
+		} catch (SQLException e) {
+			System.err.println("DB Connection was unsuccessful");
+			log.error("init_dbConnection - Error: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return conn;
+	}
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class StepData {
+		public String subfunc_name;
+		private String orId;
+		private String locator;
+		private String type;
+		private String stepId;
+		private String stepDesc;
+		private String scrName;
+		private String fldName;
+		private String skipStep;
+		private String skipSS;
+		private String skipHA;
+		private String keyword;
+	}
+
+}

@@ -1,0 +1,26 @@
+[
+    {
+      "Step Description": "Press 2 for English",
+      "Expected Result": "Successfully Pressed 2 for English",
+      "Actual Result": "testing IVR Prompt Messages",
+      "Result": "Pass"
+    },
+    {
+      "Step Description": "Say 'Credit Card'",
+      "Expected Result": "Succesfully said Credit Card",
+      "Actual Result": "testing IVR Prompt Messages",
+      "Result": "Pass"
+    },
+    {
+      "Step Description": "Say 'Yes' to confirm",
+      "Expected Result": "Succesfully said to Yes to confirm the action",
+      "Actual Result": "testing IVR Prompt Messages",
+      "Result": "Pass"
+    },
+    {
+      "Step Description": "Verify IVR is able intrepret upon user interaction",
+      "Expected Result": "IVR intrepretation is able to intrepret user interaction succesfully",
+      "Actual Result": "testing IVR Prompt Messages",
+      "Result": "Skip"
+    }
+  ]

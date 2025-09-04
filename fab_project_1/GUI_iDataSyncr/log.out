@@ -1,0 +1,27 @@
+startup - creating DB connection
+Timestamp: 2024-07-19 12:08:45.833
+
+TOTAL 5 NO.OF STAGES FOR SCN ID : CYCLOS_001
+
+STAGE 1.0: CYCLOSE_LOGIN
+Update Flag: true|| func_seq=1.0|| subfunc_seq=1.0|| itr=1 || CYCLOSE_LOGIN|| 5 || 1.0 || Navigate to URL || cyclos_login
+Update Flag: true|| func_seq=1.0|| subfunc_seq=1.0|| itr=1 || CYCLOSE_LOGIN|| 5 || 2.0 || Click on login button || cyclos_login
+Update Flag: true|| func_seq=1.0|| subfunc_seq=1.0|| itr=1 || CYCLOSE_LOGIN|| 5 || 3.0 || Enter user name || cyclos_login
+Update Flag: true|| func_seq=1.0|| subfunc_seq=1.0|| itr=1 || CYCLOSE_LOGIN|| 5 || 4.0 || Enter password || cyclos_login
+Update Flag: true|| func_seq=1.0|| subfunc_seq=1.0|| itr=1 || CYCLOSE_LOGIN|| 5 || 5.0 || Click submit button || cyclos_login
+STAGE 2.0: CYCLOSE_HOMEPAGE
+Update Flag: true|| func_seq=2.0|| subfunc_seq=2.0|| itr=1 || CYCLOSE_HOMEPAGE|| 2 || 2.0 || Click on Banking tab || cyclos_homepage
+Update Flag: true|| func_seq=2.0|| subfunc_seq=2.0|| itr=1 || CYCLOSE_HOMEPAGE|| 2 || 1.0 || Retrieve the username || cyclos_homepage
+STAGE 3.0: CYCLOSE_BANKING_PAGE
+Update Flag: true|| func_seq=3.0|| subfunc_seq=3.0|| itr=1 || CYCLOSE_BANKING_PAGE|| 4 || 1.0 || Click on payment to system || cyclos_banking_page
+Update Flag: true|| func_seq=3.0|| subfunc_seq=3.0|| itr=1 || CYCLOSE_BANKING_PAGE|| 4 || 2.0 || Enter an amount || cyclos_banking_page
+Update Flag: true|| func_seq=3.0|| subfunc_seq=3.0|| itr=1 || CYCLOSE_BANKING_PAGE|| 4 || 3.0 || Enter a description || cyclos_banking_page
+Update Flag: true|| func_seq=3.0|| subfunc_seq=3.0|| itr=1 || CYCLOSE_BANKING_PAGE|| 4 || 4.0 || Click on Next button || cyclos_banking_page
+STAGE 4.0: CYCLOSE_PAYMENT_CONFIRMATION
+Update Flag: true|| func_seq=4.0|| subfunc_seq=4.0|| itr=1 || CYCLOSE_PAYMENT_CONFIRMATION|| 2 || 1.0 || Click on Confirm button || cyclos_paymentconfirmation
+Update Flag: true|| func_seq=4.0|| subfunc_seq=4.0|| itr=1 || CYCLOSE_PAYMENT_CONFIRMATION|| 2 || 3.0 || Verify the success message for the application. || cyclos_paymentconfirmation
+STAGE 5.0: CYCLOSE_LOGOUT1
+Update Flag: true|| func_seq=5.0|| subfunc_seq=5.0|| itr=1 || CYCLOSE_LOGOUT1|| 1 || 1.0 || Click on Logout button || cyclos_demo_logout
+Timestamp: 2024-07-19 12:08:47.117
+
+SCENARIO STEP GENERATION COMPLETED SUCCESSFULLY

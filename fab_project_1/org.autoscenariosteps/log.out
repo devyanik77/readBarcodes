@@ -1,0 +1,27 @@
+startup - creating DB connection
+init_dbConnection - Error: UCAExc:::5.0.1 Illegal char <> at index 17: F:ProjectsECLIPSEab_project_1GUI_iDataSyncraccess_databaseAutomation_DB.accdb
+net.ucanaccess.jdbc.UcanaccessSQLException: UCAExc:::5.0.1 Illegal char <> at index 17: F:ProjectsECLIPSEab_project_1GUI_iDataSyncraccess_databaseAutomation_DB.accdb
+	at net.ucanaccess.jdbc.UcanaccessDriver.connect(UcanaccessDriver.java:231)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:682)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:253)
+	at org.autoscenariosteps.ScenarioStepGenerator.init_dbConnection(ScenarioStepGenerator.java:688)
+	at org.autoscenariosteps.ScenarioStepGenerator.main(ScenarioStepGenerator.java:46)
+Caused by: java.nio.file.InvalidPathException: Illegal char <> at index 17: F:ProjectsECLIPSEab_project_1GUI_iDataSyncraccess_databaseAutomation_DB.accdb
+	at java.base/sun.nio.fs.WindowsPathParser.normalize(WindowsPathParser.java:204)
+	at java.base/sun.nio.fs.WindowsPathParser.parse(WindowsPathParser.java:175)
+	at java.base/sun.nio.fs.WindowsPathParser.parse(WindowsPathParser.java:77)
+	at java.base/sun.nio.fs.WindowsPath.parse(WindowsPath.java:92)
+	at java.base/sun.nio.fs.WindowsFileSystem.getPath(WindowsFileSystem.java:231)
+	at java.base/java.io.File.toPath(File.java:2413)
+	at com.healthmarketscience.jackcess.DatabaseBuilder.toPath(DatabaseBuilder.java:350)
+	at com.healthmarketscience.jackcess.DatabaseBuilder.<init>(DatabaseBuilder.java:87)
+	at net.ucanaccess.jdbc.DefaultJackcessOpener.open(DefaultJackcessOpener.java:29)
+	at net.ucanaccess.jdbc.DBReference.<init>(DBReference.java:171)
+	at net.ucanaccess.jdbc.DBReferenceSingleton.loadReference(DBReferenceSingleton.java:51)
+	at net.ucanaccess.jdbc.UcanaccessDriver.connect(UcanaccessDriver.java:91)
+	... 4 more
+Timestamp: 2025-08-11 16:48:52.86
+
+Main - Error: Cannot invoke "java.sql.Connection.createStatement(int, int)" because "org.autoscenariosteps.ScenarioStepGenerator.conn" is null
+java.lang.NullPointerException: Cannot invoke "java.sql.Connection.createStatement(int, int)" because "org.autoscenariosteps.ScenarioStepGenerator.conn" is null
+	at org.autoscenariosteps.ScenarioStepGenerator.main(ScenarioStepGenerator.java:119)

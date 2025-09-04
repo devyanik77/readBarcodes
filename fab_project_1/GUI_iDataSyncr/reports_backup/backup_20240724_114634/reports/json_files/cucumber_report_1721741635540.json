@@ -1,0 +1,219 @@
+[
+  {
+    "keyword": "Scenario",
+    "name": "OC_002",
+    "id": "",
+    "uri": "",
+    "elements": [
+      {
+        "tags": [
+          {
+            "name": "Regression,Smoke"
+          }
+        ],
+        "id": "",
+        "name": "dd",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "name": "Navigate to URL",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eNavigate to URL\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003eurl\u003cbr /\u003eSUCCESS: Successfully navigated to the URL https://naveenautomationlabs.com/opencart/index.php?route\u003daccount/login"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 2162000000
+            },
+            "match": {
+              "location": "OC_002_Navigate_to_URL"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Click Register link",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClick Register link\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_register\u003cbr /\u003eSUCCESS: Successfully clicked the element"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 1695000000
+            },
+            "match": {
+              "location": "OC_002_Click_Register_link"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter First Name",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter First Name\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_firstName\u003cbr /\u003eSUCCESS: Successfully entered the value FORM:firstName()"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 576000000
+            },
+            "match": {
+              "location": "OC_002_Enter_First_Name"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter Last Name",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter Last Name\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_lastName\u003cbr /\u003eSUCCESS: Successfully entered the value FORM:lastName()"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 547000000
+            },
+            "match": {
+              "location": "OC_002_Enter_Last_Name"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter Email",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter Email\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_login\u003cbr /\u003eSUCCESS: Successfully entered the value FORM:email()"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 575000000
+            },
+            "match": {
+              "location": "OC_002_Enter_Email"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter Phone number",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter Phone number\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_phoneNumber\u003cbr /\u003eSUCCESS: Successfully entered the value FORM:phoneNumber()"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 528000000
+            },
+            "match": {
+              "location": "OC_002_Enter_Phone_number"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter Password",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter Password\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_password\u003cbr /\u003eSUCCESS: Successfully entered the value 12345"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 396000000
+            },
+            "match": {
+              "location": "OC_002_Enter_Password"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter Confirm Password",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter Confirm Password\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_confirmPassword\u003cbr /\u003eSUCCESS: Successfully entered the value 12345"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 401000000
+            },
+            "match": {
+              "location": "OC_002_Enter_Confirm_Password"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Select Subscribe",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eSelect Subscribe\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_subcribeYes\u003cbr /\u003eSUCCESS: Successfully clicked the element"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 949000000
+            },
+            "match": {
+              "location": "OC_002_Select_Subscribe"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Click agree checkbox",
+            "keyword": "input",
+            "result": {
+              "status": "Failed",
+              "duration": 10319000000,
+              "error_message": "(Soft Assertion Failure) Scenario failed at step 10.0\n\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClick agree checkbox\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_agree\u003cbr /\u003eSOFTFAIL: Element not found\n"
+            },
+            "match": {
+              "location": "OC_002_Click_agree_checkbox"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Click Continue button",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClick Continue button\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_continue\u003cbr /\u003eSUCCESS: Successfully clicked the element"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 963000000
+            },
+            "match": {
+              "location": "OC_002_Click_Continue_button"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Clcik Logout link",
+            "keyword": "input",
+            "result": {
+              "status": "Failed",
+              "duration": 10333000000,
+              "error_message": "(Soft Assertion Failure) Scenario failed at step 12.0\n\u003ci\u003e SCN ID : \u003c/i\u003eOC_002\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CAS_login - CAS_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClcik Logout link\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003eoc_register, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_logout\u003cbr /\u003eSOFTFAIL: Element not found\n"
+            },
+            "match": {
+              "location": "OC_002_Clcik_Logout_link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,125 @@
+[
+  {
+    "keyword": "Scenario",
+    "name": "CYCLOS_001",
+    "id": "",
+    "uri": "",
+    "elements": [
+      {
+        "tags": [
+          {
+            "name": "Regression,Smoke"
+          }
+        ],
+        "id": "",
+        "name": "Cyclcos sample",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "name": "Navigate to URL",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_LOGIN - cyclos_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eNavigate to URL\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_login, \u003ci\u003e FIELD_NAME : \u003c/i\u003eurl\u003cbr /\u003eSUCCESS: Successfully navigated to the URL https://communities.cyclos.org/tristhaqademo/ui/home"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 2882000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Navigate_to_URL"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Click on login button",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_LOGIN - cyclos_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClick on login button\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_login, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_login1\u003cbr /\u003eSUCCESS: Successfully clicked the element"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 2163000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Click_on_login_button"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter user name",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_LOGIN - cyclos_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter user name\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_login, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_username\u003cbr /\u003eSUCCESS: Successfully entered the value tristha_001"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 386000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Enter_user_name"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Enter password",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_LOGIN - cyclos_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eEnter password\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_login, \u003ci\u003e FIELD_NAME : \u003c/i\u003etb_password\u003cbr /\u003eSUCCESS: Successfully entered the value 1234"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 377000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Enter_password"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Click submit button",
+            "keyword": "input",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_LOGIN - cyclos_login\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eClick submit button\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_login, \u003ci\u003e FIELD_NAME : \u003c/i\u003ebt_login_btn\u003cbr /\u003eSUCCESS: Successfully clicked the element"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 902000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Click_submit_button"
+            }
+          },
+          {
+            "arguments": [],
+            "name": "Retrieve the username",
+            "keyword": "retrieve",
+            "output": [
+              [
+                "\u003ci\u003e SCN ID : \u003c/i\u003eCYCLOS_001\u003cbr /\u003e\u003ci\u003e STAGE : \u003ci\u003e CYCLOSE_HOMEPAGE - cyclos_homepage\u003cbr /\u003e\u003ci\u003e STEP DESCRIPTION : \u003c/i\u003eRetrieve the username\u003cbr /\u003e\u003ci\u003e SCREEN_NAME : \u003c/i\u003ecyclos_homepage, \u003ci\u003e FIELD_NAME : \u003c/i\u003ert_user_name\u003cbr /\u003eSUCCESS: The value retrieved Successfully -- \u003e Application value : tristha_001"
+              ]
+            ],
+            "result": {
+              "status": "Passed",
+              "duration": 545000000
+            },
+            "match": {
+              "location": "CYCLOS_001_Retrieve_the_username"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

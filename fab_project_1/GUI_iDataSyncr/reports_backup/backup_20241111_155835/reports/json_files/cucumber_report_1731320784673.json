@@ -1,0 +1,22 @@
+[
+  {
+    "keyword": "Scenario",
+    "name": "CYCLOS_001",
+    "id": "",
+    "uri": "",
+    "elements": [
+      {
+        "tags": [
+          {
+            "name": "Regression,Smoke"
+          }
+        ],
+        "id": "",
+        "name": "Cyclcos sample",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "steps": []
+      }
+    ]
+  }
+]

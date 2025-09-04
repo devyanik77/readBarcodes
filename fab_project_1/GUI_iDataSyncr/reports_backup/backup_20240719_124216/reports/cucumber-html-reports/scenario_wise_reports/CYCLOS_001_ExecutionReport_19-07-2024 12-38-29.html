@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>TEST EXECUTION REPORT</title>
+  <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+  <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+  <link href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/css/spark-style.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@7cc78ce/spark/js/jsontree.js"></script>
+  <style type="text/css"></style>
+ </head>
+ <body class="spa -report standard">
+  <div class="app">
+   <div class="layout">
+    <div class="header navbar">
+     <div class="vheader">
+      <div class="nav-logo"><a href="#">
+        <div class="logo" style="background-image: url('https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png')"></div></a>
+      </div>
+      <ul class="nav-left"> <a href="../TestExecutionReport.html" class="badge badge-primary">Dashboard</a>
+      </ul>
+      <ul class="nav-right">
+       <li class="m-r-10"><a href="#"><span class="badge badge-primary">TEST EXECUTION REPORT</span></a></li>
+       <li class="m-r-10"><a href="#"><span class="badge badge-primary">Jul 19, 2024 12:38:29 pm</span></a></li>
+      </ul>
+     </div>
+    </div>
+    <div class="side-nav">
+     <div class="side-nav-inner">
+      <ul class="side-nav-menu">
+       <li class="nav-item dropdown" onclick="toggleView('test-view')"><a id="nav-test" class="dropdown-toggle" href="#"> <span class="ico"><i class="fa fa-list"></i></span> </a></li>
+      </ul>
+     </div>
+    </div>
+    <div class="vcontainer">
+     <div class="main-content">
+      <div class="test-wrapper row view test-view">
+       <div class="test-list">
+        <div class="test-list-tools">
+         <ul class="tools pull-left">
+          <li><a href="#"><span class="font-size-14">Tests</span></a></li>
+         </ul>
+         <ul class="tools text-right">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
+           <ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0"><a class="dropdown-item" status="fail" href="#"><span>Fail</span><span class="status danger"></span></a>
+            <div class="dropdown-divider"></div><a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
+           </ul></li>
+         </ul>
+        </div>
+        <div class="test-list-wrapper scrollable">
+         <ul class="test-list-item">
+          <li class="test-item" status="fail" test-id="1" author="" tag="" device="">
+           <div class="test-detail">
+            <p class="name">CYCLOS_001</p>
+            <p class="text-sm"><span>12:38:33 pm</span> / <span>00:01:23:936</span> <span class="badge fail-bg log float-right">Fail</span></p>
+           </div>
+           <div class="test-contents d-none">
+            <div class="detail-head">
+             <div class="p-v-10">
+              <div class="info">
+               <h5 class="test-status text-fail">CYCLOS_001</h5><span class="badge badge-success">07.19.2024 12:38:33 pm</span> <span class="badge badge-danger">07.19.2024 12:39:57 pm</span> <span class="badge badge-default">00:01:23:936</span> · <span class="uri-anchor badge badge-default">#test-id=1</span> <span title="Skip to the next failed step" class="badge badge-danger pointer float-right ne ml-1"><i class="fa fa-fast-forward"></i></span> <span title="Collapse all nodes" class="badge badge-default pointer float-right ct ml-1"><i class="fa fa-compress"></i></span> <span title="Expand all nodes" class="badge badge-default pointer float-right et"><i class="fa fa-expand"></i></span>
+              </div>
+              <div class="m-t-10 m-l-5">
+               Cyclos Demo
+              </div>
+             </div>
+            </div>
+            <div class="detail-body mt-4">
+             <table class="table table-sm">
+              <thead>
+               <tr>
+                <th class="status-col">Status</th>
+                <th class="timestamp-col">Timestamp</th>
+                <th class="details-col">Details</th>
+               </tr>
+              </thead>
+              <tbody>
+               <tr class="event-row">
+                <td><span class="badge log info-bg">Info</span></td>
+                <td>12:38:33 pm</td>
+                <td><span class="badge white-text green"><b><i>Executing Scenario Step --&gt; <i><b>CYCLOS_001</b></i></i></b></span><b><i><i><b> </b></i></i></b></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:35 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGIN - cyclos_login<br><i> STEP DESCRIPTION : </i>Navigate to URL<br><i> SCREEN_NAME : </i>cyclos_login, <i> FIELD_NAME : </i>url<br>
+                   SUCCESS: Successfully navigated to the URL https://communities.cyclos.org/tristhaqademo/ui/home </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:35 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372915857.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372915857.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:38 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGIN - cyclos_login<br><i> STEP DESCRIPTION : </i>Click on login button<br><i> SCREEN_NAME : </i>cyclos_login, <i> FIELD_NAME : </i>bt_login1<br>
+                   SUCCESS: Successfully clicked the element </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:38 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372918212.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372918212.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:38 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGIN - cyclos_login<br><i> STEP DESCRIPTION : </i>Enter user name<br><i> SCREEN_NAME : </i>cyclos_login, <i> FIELD_NAME : </i>tb_username<br>
+                   SUCCESS: Successfully entered the value tristha_001 </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:38 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_3.0_1721372918837.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_3.0_1721372918837.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:39 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGIN - cyclos_login<br><i> STEP DESCRIPTION : </i>Enter password<br><i> SCREEN_NAME : </i>cyclos_login, <i> FIELD_NAME : </i>tb_password<br>
+                   SUCCESS: Successfully entered the value 1234 </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:39 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_4.0_1721372919457.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_4.0_1721372919457.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:40 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGIN - cyclos_login<br><i> STEP DESCRIPTION : </i>Click submit button<br><i> SCREEN_NAME : </i>cyclos_login, <i> FIELD_NAME : </i>bt_login_btn<br>
+                   SUCCESS: Successfully clicked the element </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:40 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_5.0_1721372920660.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_5.0_1721372920660.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:41 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_HOMEPAGE - cyclos_homepage<br><i> STEP DESCRIPTION : </i>Retrieve the username<br><i> SCREEN_NAME : </i>cyclos_homepage, <i> FIELD_NAME : </i>rt_user_name<br>
+                   SUCCESS: The value retrieved Successfully -- &gt; Application value : tristha_001 </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:38:41 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372921473.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372921473.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:38:52 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_BANKING_PAGE - cyclos_banking_page<br><i> STEP DESCRIPTION : </i>Click on payment to system<br><i> SCREEN_NAME : </i>cyclos_banking_page, <i> FIELD_NAME : </i>bt_payment_to_system<br>
+                   SOFTFAIL: Element not found </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:38:52 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372932233.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372932233.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:02 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_BANKING_PAGE - cyclos_banking_page<br><i> STEP DESCRIPTION : </i>Enter an amount<br><i> SCREEN_NAME : </i>cyclos_banking_page, <i> FIELD_NAME : </i>tb_amount<br>
+                   SUCCESS: Successfully entered the value 1 </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:02 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372942749.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372942749.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:13 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_BANKING_PAGE - cyclos_banking_page<br><i> STEP DESCRIPTION : </i>Enter a description<br><i> SCREEN_NAME : </i>cyclos_banking_page, <i> FIELD_NAME : </i>tb_description<br>
+                   SUCCESS: Successfully entered the value Testing </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:13 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_3.0_1721372953230.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_3.0_1721372953230.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:23 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_BANKING_PAGE - cyclos_banking_page<br><i> STEP DESCRIPTION : </i>Click on Next button<br><i> SCREEN_NAME : </i>cyclos_banking_page, <i> FIELD_NAME : </i>bt_next<br>
+                   SOFTFAIL: Element not found </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:24 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_4.0_1721372964011.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_4.0_1721372964011.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:34 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_PAYMENT_CONFIRMATION - cyclos_paymentconfirmation<br><i> STEP DESCRIPTION : </i>Click on Confirm button<br><i> SCREEN_NAME : </i>cyclos_paymentconfirmation, <i> FIELD_NAME : </i>bt_confirm<br>
+                   SOFTFAIL: Element not found </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:34 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372974668.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372974668.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:55 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_PAYMENT_CONFIRMATION - cyclos_paymentconfirmation<br><i> STEP DESCRIPTION : </i>Verify the success message for the application.<br><i> SCREEN_NAME : </i>cyclos_paymentconfirmation, <i> FIELD_NAME : </i>verify_success<br>
+                   SOFTSOFTFAIL: Exception occurred while getting element : Expected And Actual not Matching: The payment was successfully processed|Actual: SOFTFAIL: Exception occurred while finding element : exception description : java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebElement.getText()" because "this.elementLocator" is null </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log fail-bg">Fail</span></td>
+                <td>12:39:55 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372995822.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_2.0_1721372995822.png">
+                  </div>
+                 </div></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:57 pm</td>
+                <td><i> SCN ID : </i>CYCLOS_001<br><i> STAGE : <i> CYCLOSE_LOGOUT1 - cyclos_demo_logout<br><i> STEP DESCRIPTION : </i>Click on Logout button<br><i> SCREEN_NAME : </i>cyclos_demo_logout, <i> FIELD_NAME : </i>bt_logout<br>
+                   SUCCESS: Successfully clicked the element </i></i></td>
+               </tr>
+               <tr class="event-row">
+                <td><span class="badge log pass-bg">Pass</span></td>
+                <td>12:39:57 pm</td>
+                <td>
+                 <div class="row mb-3">
+                  <div class="col-md-3"><img data-featherlight=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372997159.png" src=".\embeddings\CYCLOS_001\CYCLOS_001_1.0_1721372997159.png">
+                  </div>
+                 </div></td>
+               </tr>
+              </tbody>
+             </table>
+            </div>
+           </div></li>
+         </ul>
+        </div>
+       </div>
+       <div class="test-content scrollable">
+        <div class="test-content-tools">
+         <ul>
+          <li><a class="back-to-test" href="#"><i class="fa fa-arrow-left"></i></a></li>
+         </ul>
+        </div>
+        <div class="test-content-detail">
+         <div class="detail-body"></div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/js/spark-script.js"></script>
+  <script type="text/javascript"></script>
+ </body>
+</html>
